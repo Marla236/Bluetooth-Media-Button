@@ -19,7 +19,7 @@ hid = HIDService()
 
 device_info = DeviceInfoService(
     software_revision=adafruit_ble.__version__, manufacturer="Marla Industries"
-)
+) 
 
 advertisement = ProvideServicesAdvertisement(hid)
 advertisement.appearance = 961
@@ -46,9 +46,9 @@ double_click_phase = 0
 
 
 def long_press(elapsed):
-    if elapsed > long_pressed_treshold:
+    if elapsed > long_pressed_treshold: # wenn der Knopf lange gedrückt wurde, soll dieser Knopfdruck nicht für einen Doppelklick gezählt werden
         return 0
-    else:
+    else: # gibt also nur 1 zurück, wenn der Knopf ein Mal kurz gedrückt wurde
         return 1
 
 
@@ -57,7 +57,7 @@ while True:
         pass
     print("start typing: ")
     while ble.connected:
-        button1_pressed = not button1.value
+        button1_pressed = not button1.value # button1.value ist standardmäßig True, wenn der Knopf gedrückt ist False
         button2_pressed = not button2.value
         if button1_pressed:  # wenn Knopf 1 gedrückt ist
             if not pressed_phase:  # und vorher nicht gedrückt war
