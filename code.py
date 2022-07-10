@@ -82,8 +82,7 @@ while True:
                 if (
                     elapsed > allowed_pause_for_double and double_click_phase > 0
                 ):  # Einzelklick erkennen
-                    perspective = (perspective + 1) % 10 # für die Perspektive zwischen 0 und 9 jeweils um 1 weiter sprinegn
-                    keyboard_layout.write(f"{perspective}") # und senden
+                    keyboard.send(Keycode.PAGE_UP) # und Watt steigern
                     double_click_phase = 0  # Klickanzahl zurücksetzen
             time.sleep(0.1)
         if button2_pressed: # wenn Knopf 2 gedrückt wurde
