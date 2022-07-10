@@ -70,7 +70,7 @@ while True:
                 pressed_phase1 = True  # und merken, dass er jetzt gedrückt wurde
         else:  # wenn Knopf 1 nicht gedrückt ist
             if pressed_phase1:  # und vorher gedrückt war
-                elapsed = time.time() - a  # abfragen, wie lange er vorher gedrückt war
+                elapsed = time.time() - a1  # abfragen, wie lange er vorher gedrückt war
                 a1 = time.time()  # Zeit aktualisieren
                 pressed_phase1 = False  # merken, dass er vorher nicht gedrückt war
                 double_click_phase1 += long_press(
