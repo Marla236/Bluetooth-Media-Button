@@ -45,6 +45,9 @@ pressed_phase = False
 double_click_phase = 0
 
 
+# Knopf 1 ist blau, Einzelklick sendet perspective+1, Doppelklick wechselt das Fenster
+# Knopf 2 ist rot, Einzelklick sendet Leerzeichen
+
 def long_press(elapsed):
     if elapsed > long_pressed_treshold: # wenn der Knopf lange gedrückt wurde, soll dieser Knopfdruck nicht für einen Doppelklick gezählt werden
         return 0
