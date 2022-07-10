@@ -40,10 +40,12 @@ keyboard_layout = KeyboardLayoutUS(keyboard)
 perspective = 1
 allowed_pause_for_double = 0.1
 long_pressed_treshold = 1
-a = time.time()
-pressed_phase = False
-double_click_phase = 0
-
+a1 = time.time()
+pressed_phase1 = False
+double_click_phase1 = 0
+a2 = time.time()
+pressed_phase2 = False
+double_click_phase2 = 0
 
 # Knopf 1 ist blau, Einzelklick sendet perspective+1, Doppelklick wechselt das Fenster
 # Knopf 2 ist rot, Einzelklick sendet Leerzeichen
@@ -63,28 +65,49 @@ while True:
         button1_pressed = not button1.value # button1.value ist standardmäßig True, wenn der Knopf gedrückt ist False
         button2_pressed = not button2.value
         if button1_pressed:  # wenn Knopf 1 gedrückt ist
-            if not pressed_phase:  # und vorher nicht gedrückt war
-                a = time.time()  # Startzeit merken
-                pressed_phase = True  # und merken, dass er jetzt gedrückt wurde
+            if not pressed_phase1:  # und vorher nicht gedrückt war
+                a1 = time.time()  # Startzeit merken
+                pressed_phase1 = True  # und merken, dass er jetzt gedrückt wurde
         else:  # wenn Knopf 1 nicht gedrückt ist
-            if pressed_phase:  # und vorher gedrückt war
+            if pressed_phase1:  # und vorher gedrückt war
                 elapsed = time.time() - a  # abfragen, wie lange er vorher gedrückt war
-                a = time.time()  # Zeit aktualisieren
-                pressed_phase = False  # merken, dass er vorher nicht gedrückt war
-                double_click_phase += long_press(
+                a1 = time.time()  # Zeit aktualisieren
+                pressed_phase1 = False  # merken, dass er vorher nicht gedrückt war
+                double_click_phase1 += long_press(
                     elapsed
                 )  # und merken, wie oft er jetzt in kurzer Zeit gedrückt wurde
-                if double_click_phase == 2:  # wenn Doppelklick vollständig ist
-                    double_click_phase = 0  # Klickanzahl zurücksetzen
+                if double_click_phase1 == 2:  # wenn Doppelklick vollständig ist
+                    double_click_phase1 = 0  # Klickanzahl zurücksetzen
                     keyboard.send(Keycode.ALT, Keycode.TAB, Keycode.TAB) # und Fenster wechseln
             else:  # und vorher nicht gedrückt war
-                elapsed = time.time() - a  # Zeit abfragen, die er nicht gedrückt wurde
+                elapsed = time.time() - a1  # Zeit abfragen, die er nicht gedrückt wurde
                 if (
-                    elapsed > allowed_pause_for_double and double_click_phase > 0
+                    elapsed > allowed_pause_for_double and double_click_phase1 > 0
                 ):  # Einzelklick erkennen
                     keyboard.send(Keycode.PAGE_UP) # und Watt steigern
-                    double_click_phase = 0  # Klickanzahl zurücksetzen
+                    double_click_phase1 = 0  # Klickanzahl zurücksetzen
             time.sleep(0.1)
+
         if button2_pressed: # wenn Knopf 2 gedrückt wurde
-            keyboard.send(Keycode.SPACE)  # Leerzeichen senden
-            time.sleep(0.3) # und kurz pausieren, sonst wird ein Knopfdruck als mehrere erfasst 
+            if not pressed_phase2:  # und vorher nicht gedrückt war
+                a2 = time.time()  # Startzeit merken
+                pressed_phase2 = True  # und merken, dass er jetzt gedrückt wurde
+        else:  # wenn Knopf 2 nicht gedrückt ist
+            if pressed_phase2:  # und vorher gedrückt war
+                elapsed = time.time() - a2  # abfragen, wie lange er vorher gedrückt war
+                a2 = time.time()  # Zeit aktualisieren
+                pressed_phase2 = False  # merken, dass er vorher nicht gedrückt war
+                double_click_phase2 += long_press(
+                    elapsed
+                )  # und merken, wie oft er jetzt in kurzer Zeit gedrückt wurde
+                if double_click_phase2 == 2:  # wenn Doppelklick vollständig ist
+                    double_click_phase2 = 0  # Klickanzahl zurücksetzen
+                    keyboard.send(Keycode.SPACE)  # Leerzeichen senden
+            else:  # und vorher nicht gedrückt war
+                elapsed = time.time() - a2  # Zeit abfragen, die er nicht gedrückt wurde
+                if (
+                    elapsed > allowed_pause_for_double and double_click_phase2 > 0
+                ):  # Einzelklick erkennen
+                    keyboard.send(Keycode.PAGE_DOWN) # und Watt senken
+                    double_click_phase2 = 0  # Klickanzahl zurücksetzen
+            time.sleep(0.1)
